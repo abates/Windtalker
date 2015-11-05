@@ -16,9 +16,20 @@
 
 package co.andrewbates.windtalker;
 
+/**
+ * @author Andrew Bates
+ *
+ *         Exception that indicates an input message is too long to be encoded
+ */
 public class MessageTooLongException extends Exception {
     private static final long serialVersionUID = -6578936811273134717L;
 
+    /**
+     * Initialize the exception to indicate the maximum size of a message
+     * 
+     * @param maxSize
+     *            the maximum number of characters acceptable in a message
+     */
     public MessageTooLongException(int maxSize) {
         super("Messages cannot be more than " + maxSize + " characters");
     }
