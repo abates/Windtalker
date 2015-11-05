@@ -16,8 +16,35 @@
 
 package co.andrewbates.windtalker;
 
+/**
+ * @author Andrew Bates
+ * 
+ *         The Codec interface defines the methods an implementor must create
+ *         for the Windtalker to use before sending messages over the air.
+ *         Messages can be encoded and decoded. As long as both the sender and
+ *         receiver have implemented the encoding and decoding the same way, the
+ *         messages should be understandable by both parties.
+ * 
+ */
 public interface Codec {
-    public String encode(String message);
-
+    /**
+     * The decode method will take a message that has been previously encoded
+     * and convert it back into the original message
+     * 
+     * @param message
+     *            encoded string
+     * @return the decoded message
+     */
     public String decode(String message);
+
+    /**
+     * The encode method will take a clear text message and encode it using the
+     * secret algorithm. Once encoded the message can be translated and no one
+     * in the middle should be able to understand the meaning of the message
+     * 
+     * @param message
+     *            string to be encoded for sending
+     * @return encoded message
+     */
+    public String encode(String message);
 }
