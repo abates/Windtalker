@@ -20,6 +20,6 @@ public class MessageTooLongException extends Exception {
     private static final long serialVersionUID = -6578936811273134717L;
 
     public MessageTooLongException(int maxSize) {
-        super("Messages cannot be more than 1024 characters");
+        super("Messages cannot be more than " + maxSize + " characters");
     }
 }
