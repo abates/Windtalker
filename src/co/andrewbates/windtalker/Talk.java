@@ -34,6 +34,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * @author Andrew Bates
+ * 
+ *         Talk is the main Windtalker UI. It will display a frame that includes
+ *         program options, the messages (scrolling as they are received) and a
+ *         field and button to send messages.
+ *
+ */
 public class Talk extends JFrame implements Receiver, ActionListener {
     private static final long serialVersionUID = 5709807099045135313L;
     private String username;
@@ -45,6 +53,16 @@ public class Talk extends JFrame implements Receiver, ActionListener {
     private JCheckBox ignoreMyself = new JCheckBox();
     private MaxScrollBufferField bufferLength = new MaxScrollBufferField(10);
 
+    /**
+     * Initialize the UI using the given username and Codec. The Codec will be
+     * used to encode messages that are sent and decode messages that are
+     * received
+     * 
+     * @param username
+     *            The username to prepend to each message
+     * @param codec
+     *            The codec to use for encoding and decoding messages
+     */
     public Talk(String username, Codec codec) {
         super("Windtalker");
         if (username.length() > 64) {
@@ -102,6 +120,9 @@ public class Talk extends JFrame implements Receiver, ActionListener {
         mainPanel.add(sendPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Display the UI and start the network transceiver
+     */
     public void run() {
         try {
             transceiver = new Transceiver(codec, this);
@@ -115,6 +136,12 @@ public class Talk extends JFrame implements Receiver, ActionListener {
         setVisible(true);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see co.andrewbates.windtalker.Receiver#receive(java.lang.String,
+     * boolean)
+     */
     @Override
     public void receive(String message, boolean self) {
         if (!(self && ignoreMyself.isSelected())) {
@@ -122,6 +149,12 @@ public class Talk extends JFrame implements Receiver, ActionListener {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
     @Override
     public void actionPerformed(ActionEvent event) {
         try {
