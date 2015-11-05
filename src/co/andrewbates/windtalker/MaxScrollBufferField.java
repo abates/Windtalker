@@ -22,7 +22,7 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class MaxScrollBufferField extends JTextField implements FocusListener {
+class MaxScrollBufferField extends JTextField implements FocusListener {
     private static final long serialVersionUID = -6302957643317105375L;
     int length;
 
@@ -42,9 +42,17 @@ public class MaxScrollBufferField extends JTextField implements FocusListener {
     @Override
     public void focusLost(FocusEvent event) {
         try {
-            length = Integer.parseInt(getText());
+            int newLength = Integer.parseInt(getText());
+            if (newLength < 1) {
+                JOptionPane.showMessageDialog(null, "Length must be a positive number", "Error",
+                        JOptionPane.INFORMATION_MESSAGE);
+                requestFocus();
+            } else {
+                length = newLength;
+            }
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Invalid length " + getText(), "Error",
+                    JOptionPane.INFORMATION_MESSAGE);
             requestFocus();
         }
     }
