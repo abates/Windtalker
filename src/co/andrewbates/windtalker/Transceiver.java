@@ -26,10 +26,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
-interface Receiver {
-    public void receive(String message, boolean self);
-}
-
 public class Transceiver implements Runnable {
     private DatagramSocket socket;
     private InetAddress localAddress;
