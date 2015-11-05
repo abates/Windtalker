@@ -22,6 +22,14 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+/**
+ * @author Andrew Bates
+ *
+ *         This widget will accept only positive integers. Any string entered
+ *         that is not parseable into a valid positive integer will cause a
+ *         JOptionPane to be displayed indicating an error. The field will then
+ *         be refocused until the error is corrected.
+ */
 class MaxScrollBufferField extends JTextField implements FocusListener {
     private static final long serialVersionUID = -6302957643317105375L;
     int length;
