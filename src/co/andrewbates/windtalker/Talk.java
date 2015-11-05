@@ -125,7 +125,7 @@ public class Talk extends JFrame implements Receiver, ActionListener {
      */
     public void run() {
         try {
-            transceiver = new Transceiver(codec, this);
+            transceiver = new Transceiver(this);
         } catch (SocketException ex) {
             JOptionPane.showMessageDialog(null, "Failed to start network stack: " + ex.getMessage(), "Error",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -145,7 +145,7 @@ public class Talk extends JFrame implements Receiver, ActionListener {
     @Override
     public void receive(String message, boolean self) {
         if (!(self && ignoreMyself.isSelected())) {
-            history.log(message);
+            history.log(codec.decode(message));
         }
     }
 
@@ -160,7 +160,7 @@ public class Talk extends JFrame implements Receiver, ActionListener {
         try {
             /* do nothing if the input field is blank */
             if (!inputMessage.getText().matches("^\\s*$")) {
-                transceiver.send(username + ": " + inputMessage.getText());
+                transceiver.send(codec.encode(username + ": " + inputMessage.getText()));
             }
         } catch (MessageTooLongException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);

@@ -36,24 +36,20 @@ public class Transceiver implements Runnable {
     private DatagramSocket socket;
     private InetAddress localAddress;
     private InetAddress broadcast;
-    private Codec codec;
     private Receiver receiver;
     private int maxMessageSize = 1024;
 
     /**
      * Initialize a new transceiver
      * 
-     * @param codec
-     *            Codec to use for encoding and decoding messages
      * @param receiver
      *            The receiver that will display received messages
      * @throws SocketException
      *             thrown if any problem occurs while attempting to start the
      *             network connection
      */
-    public Transceiver(Codec codec, Receiver receiver) throws SocketException {
+    public Transceiver(Receiver receiver) throws SocketException {
         setupNetwork();
-        this.codec = codec;
         this.receiver = receiver;
         new Thread(this).start();
     }
@@ -104,7 +100,7 @@ public class Transceiver implements Runnable {
         while (true) {
             try {
                 socket.receive(p);
-                String message = codec.decode(new String(payload, 0, p.getLength()));
+                String message = new String(payload, 0, p.getLength());
                 receiver.receive(message, p.getAddress().equals(localAddress));
                 System.out.println("RX: " + new String(payload, 0, p.getLength()));
             } catch (Exception ex) {
@@ -126,7 +122,7 @@ public class Transceiver implements Runnable {
         if (message.length() > maxMessageSize) {
             throw new MessageTooLongException(maxMessageSize);
         }
-        byte[] payload = codec.encode(message).getBytes();
+        byte[] payload = message.getBytes();
         DatagramPacket packet = new DatagramPacket(payload, payload.length, broadcast, socket.getLocalPort());
         System.out.println("TX: " + new String(payload));
         try {
