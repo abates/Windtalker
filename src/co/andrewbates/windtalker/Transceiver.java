@@ -26,6 +26,12 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 
+/**
+ * @author Andrew Bates
+ * 
+ *         The Transciever class is what actually sends and receives messages on
+ *         the network.
+ */
 public class Transceiver implements Runnable {
     private DatagramSocket socket;
     private InetAddress localAddress;
@@ -34,6 +40,17 @@ public class Transceiver implements Runnable {
     private Receiver receiver;
     private int maxMessageSize = 1024;
 
+    /**
+     * Initialize a new transceiver
+     * 
+     * @param codec
+     *            Codec to use for encoding and decoding messages
+     * @param receiver
+     *            The receiver that will display received messages
+     * @throws SocketException
+     *             thrown if any problem occurs while attempting to start the
+     *             network connection
+     */
     public Transceiver(Codec codec, Receiver receiver) throws SocketException {
         setupNetwork();
         this.codec = codec;
@@ -41,6 +58,13 @@ public class Transceiver implements Runnable {
         new Thread(this).start();
     }
 
+    /**
+     * Find the local broadcast address and start listening on that interface
+     * 
+     * @throws SocketException
+     *             thrown if anything goes wrong when trying to listen on the
+     *             local interface
+     */
     private void setupNetwork() throws SocketException {
         System.setProperty("java.net.preferIPv4Stack", "true");
 
@@ -69,6 +93,11 @@ public class Transceiver implements Runnable {
         throw new RuntimeException("Could not find an available broadcast address");
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Runnable#run()
+     */
     public void run() {
         byte[] payload = new byte[maxMessageSize];
         DatagramPacket p = new DatagramPacket(payload, payload.length);
@@ -84,6 +113,15 @@ public class Transceiver implements Runnable {
         }
     }
 
+    /**
+     * Send a message to the network
+     * 
+     * @param message
+     *            The message to send
+     * @throws MessageTooLongException
+     *             thrown if the message exceeds the maximum length we can
+     *             actually send on the network
+     */
     public void send(String message) throws MessageTooLongException {
         if (message.length() > maxMessageSize) {
             throw new MessageTooLongException(maxMessageSize);
