@@ -20,11 +20,30 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
+/**
+ * @author Andrew Bates
+ * 
+ *         LogField is a Swing widget that provides a scrolling pane for log
+ *         messages. The pain will automatically add new messages to the bottom
+ *         of the pane as well as automatically scroll to the bottom as new
+ *         messages are added.
+ */
 public class LogField extends JScrollPane {
     private static final long serialVersionUID = 6678508751403261470L;
     private JTextArea textArea;
     private int maxLength;
 
+    /**
+     * Initializes a new log field setting the initial text as well as the width
+     * in columns and the length in lines
+     * 
+     * @param text
+     *            default text to display
+     * @param width
+     *            of the field in text columns
+     * @param maxLength
+     *            length of the field in text lines
+     */
     public LogField(String text, int columns, int maxLength) {
         textArea = new JTextArea(text, 0, columns);
         textArea.setLineWrap(false);
@@ -33,11 +52,12 @@ public class LogField extends JScrollPane {
         setViewportView(textArea);
     }
 
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
-        truncate();
-    }
-
+    /**
+     * Append a message to the field
+     * 
+     * @param message
+     *            the message to append to the log field
+     */
     public void log(String message) {
         if (!message.endsWith("\n")) {
             message += "\n";
@@ -46,6 +66,17 @@ public class LogField extends JScrollPane {
         truncate();
         textArea.setRows(textArea.getLineCount());
         textArea.setCaretPosition(textArea.getDocument().getLength());
+    }
+
+    /**
+     * Set the maximum length of the scroll back buffer
+     * 
+     * @param maxLength
+     *            the length (in lines) of the scroll buffer
+     */
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+        truncate();
     }
 
     private void truncate() {
