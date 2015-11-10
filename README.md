@@ -21,7 +21,7 @@ as everyone else in order to complete a successful project.
 
 A codec is any class that implements the co.andrewbates.windtalker.Codec interface.  This
 interface specifies two methods: code and decode.  Each method takes a string and returns
-a string.  Here is an example codec that users rot47 (similar to 
+a string.  Here is an example codec that uses rot47 (similar to 
 [rot13](https://en.wikipedia.org/wiki/ROT13))  as the coding/decoding mechanism:
 
 ```java
