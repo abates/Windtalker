@@ -13,7 +13,7 @@ code is implemented as a [codec](https://en.wikipedia.org/wiki/Codec) (COder DEC
 and the Windtalker will use the codec to encode and decode messages on the network.
 If students have implemented their codecs the same way, then everyone should be able
 to view and understand messages.  If students have implementations that manipulate the
-message slightly different then the information will be unintelligible.  This is
+message slightly different then the information will be unintelligible.  This 
 demonstrates how everyone involved in a software project needs to be on the same page
 as everyone else in order to complete a successful project.
 
